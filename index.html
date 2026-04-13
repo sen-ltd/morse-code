@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morse Code Translator</title>
+  <meta name="description" content="Morse code translator with Web Audio playback, WPM control, tap input, and visual flash mode." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Flash overlay (covers entire screen when flash mode active + playing) -->
+  <div id="flash-overlay" class="hidden"></div>
+
+  <div class="app">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <h1 class="app-title" data-i18n="title">Morse Code Translator</h1>
+        <p class="app-subtitle" data-i18n="subtitle">Text ↔ Morse · Web Audio Playback</p>
+      </div>
+      <button id="lang-toggle" class="btn btn-ghost" data-i18n="langToggle">日本語</button>
+    </header>
+
+    <!-- Main translator panel -->
+    <main class="translator">
+
+      <!-- Text section -->
+      <section class="panel">
+        <label class="panel-label" for="text-input" data-i18n="textLabel">Text</label>
+        <textarea
+          id="text-input"
+          class="panel-textarea"
+          rows="4"
+          spellcheck="false"
+          autocomplete="off"
+          data-i18n-placeholder="textPlaceholder"
+          placeholder="Type text here..."
+        ></textarea>
+      </section>
+
+      <!-- Controls row -->
+      <div class="controls-row">
+        <button id="swap-btn" class="btn btn-ghost swap-btn" title="Swap direction" data-i18n="swapBtn">⇅</button>
+      </div>
+
+      <!-- Morse section (output from text) -->
+      <section class="panel">
+        <div class="panel-header">
+          <label class="panel-label" for="morse-output" data-i18n="morseLabel">Morse Code</label>
+          <button id="copy-morse-btn" class="btn btn-ghost btn-sm" data-i18n="copyMorse">Copy</button>
+        </div>
+        <textarea
+          id="morse-output"
+          class="panel-textarea morse-font"
+          rows="3"
+          readonly
+          placeholder="... --- ..."
+        ></textarea>
+      </section>
+
+      <!-- Morse input (manual morse → text) -->
+      <section class="panel">
+        <label class="panel-label" for="morse-input" data-i18n="morseLabel">Morse Code</label>
+        <textarea
+          id="morse-input"
+          class="panel-textarea morse-font"
+          rows="2"
+          spellcheck="false"
+          data-i18n-placeholder="morsePlaceholder"
+          placeholder="... --- ..."
+        ></textarea>
+      </section>
+
+      <!-- Playback controls -->
+      <div class="playback-controls">
+        <div class="wpm-control">
+          <label for="wpm-slider" class="wpm-label" data-i18n="wpmLabel">WPM</label>
+          <input
+            type="range"
+            id="wpm-slider"
+            min="5"
+            max="40"
+            value="20"
+            class="wpm-slider"
+          />
+          <span id="wpm-value" class="wpm-value">20</span>
+        </div>
+        <div class="play-buttons">
+          <button id="play-btn" class="btn btn-primary" data-i18n="playBtn">Play</button>
+          <button id="stop-btn" class="btn btn-secondary" data-i18n="stopBtn">Stop</button>
+          <button id="clear-btn" class="btn btn-ghost" data-i18n="clearBtn">Clear</button>
+        </div>
+      </div>
+
+      <!-- Visual indicator -->
+      <div id="visual-indicator" class="visual-indicator">
+        <span id="visual-symbol" class="visual-symbol"></span>
+      </div>
+
+      <!-- Mode buttons -->
+      <div class="mode-buttons">
+        <button id="tap-mode-btn" class="btn btn-mode" data-i18n="tapMode">Tap to Input</button>
+        <button id="flash-mode-btn" class="btn btn-mode" data-i18n="flashMode">Flash Mode</button>
+      </div>
+
+      <!-- Tap input panel -->
+      <div id="tap-panel" class="tap-panel hidden">
+        <p class="tap-hint" data-i18n="tapHint">Hold for dash, tap for dot</p>
+        <div id="tap-display" class="tap-display">—</div>
+        <button id="tap-area" class="tap-area" data-i18n="tapStart">Hold / Tap</button>
+        <div class="tap-actions">
+          <button id="tap-done-btn" class="btn btn-primary btn-sm" data-i18n="tapDone">Done</button>
+          <button id="tap-clear-btn" class="btn btn-ghost btn-sm" data-i18n="tapClear">Clear</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Morse Reference Table -->
+    <section class="reference">
+      <h2 class="reference-title" data-i18n="morseRef">Morse Reference</h2>
+      <div class="reference-grid" id="reference-grid"></div>
+    </section>
+
+    <footer class="app-footer">
+      <span>© 2026 SEN 合同会社</span>
+      <a href="https://github.com/masaru87/morse-code" target="_blank" rel="noopener">GitHub</a>
+    </footer>
+  </div>
+
+  <script type="module">
+    import { MORSE_TABLE } from './src/morse.js';
+
+    // Build reference grid
+    const grid = document.getElementById('reference-grid');
+    Object.entries(MORSE_TABLE).forEach(([char, morse]) => {
+      const cell = document.createElement('div');
+      cell.className = 'ref-cell';
+      cell.innerHTML = `<span class="ref-char">${char}</span><span class="ref-morse">${morse}</span>`;
+      grid.appendChild(cell);
+    });
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

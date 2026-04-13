@@ -1,0 +1,12 @@
+{
+  "name": "morse-code",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Morse code translator with audio playback.",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python3 -m http.server 8080"
+  },
+  "license": "MIT"
+}
