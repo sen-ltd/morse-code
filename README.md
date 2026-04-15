@@ -60,3 +60,10 @@ morse-code/
 ## License
 
 MIT © 2026 SEN LLC (SEN 合同会社)
+
+<!-- sen-publish:links -->
+## Links
+
+- 🌐 Demo: https://sen.ltd/portfolio/morse-code/
+- 📝 dev.to: https://dev.to/sendotltd/a-morse-code-translator-with-web-audio-playback-and-paris-standard-timing-3b4l
+<!-- /sen-publish:links -->
